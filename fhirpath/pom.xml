@@ -51,7 +51,7 @@
     </dependency>
     <dependency>
       <groupId>io.delta</groupId>
-      <artifactId>delta-core_${pathling.scalaVersion}</artifactId>
+      <artifactId>delta-spark_${pathling.scalaVersion}</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -270,9 +270,9 @@
             <to>
               <image>${pathling.fhirServerDockerRepo}</image>
               <tags>
-                <tag>${pathling.fhirServerDockerTag}</tag>
-                <tag>${project.version}</tag>
-                <tag>${project.majorVersion}</tag>
+                <tag>${pathling.fhirServerDockerTag}-delta3</tag>
+                <tag>${project.version}-delta3</tag>
+                <tag>${project.majorVersion}-delta3</tag>
                 <tag>${git.commit.id}</tag>
               </tags>
             </to>

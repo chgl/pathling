@@ -36,7 +36,7 @@ spark = (
     SparkSession.builder.config(
             "spark.jars.packages",
             "au.csiro.pathling:library-runtime:6.4.2,"
-            "io.delta:delta-core_2.12:2.4.0,"
+            "io.delta:delta-spark_2.12:3.1.0,"
     )
     .config(
             "spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension"
@@ -58,12 +58,12 @@ library(sparklyr)
 library(pathling)
 
 sc <- spark_connect(master = "local",
-                    packages = c(paste("au.csiro.pathling:library-runtime:", pathling_version()), 
-                                 "io.delta:delta-core_2.12:2.4.0"),
+                    packages = c(paste("au.csiro.pathling:library-runtime:", pathling_version()),
+                                 "io.delta:delta-spark_2.12:3.1.0"),
                     config = list("sparklyr.shell.conf" = c(
                       "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension",
                       "spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog"
-                    )), version = "3.4.0")
+                    )), version = "3.5.0")
 
 pc <- pathling_connect(sc)
 ```
@@ -76,7 +76,7 @@ import au.csiro.pathling.library.PathlingContext
 
 val spark = SparkSession.builder
   .config("spark.jars.packages", "au.csiro.pathling:library-runtime:6.4.2," +
-      "io.delta:delta-core_2.12:2.4.0")
+      "io.delta:delta-spark_2.12:3.1.0")
   .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension")
   .config("spark.sql.catalog.spark_catalog",
     "org.apache.spark.sql.delta.catalog.DeltaCatalog")
@@ -96,10 +96,10 @@ class MyApp {
 
     public static void main(String[] args) {
         SparkSession spark = SparkSession.builder()
-            .config("spark.jars.packages", 
+            .config("spark.jars.packages",
                     "au.csiro.pathling:library-runtime:6.4.2," +
-                    "io.delta:delta-core_2.12:2.4.0")
-            .config("spark.sql.extensions", 
+                    "io.delta:delta-spark_2.12:3.1.0")
+            .config("spark.sql.extensions",
                     "io.delta.sql.DeltaSparkSessionExtension")
             .config("spark.sql.catalog.spark_catalog",
                     "org.apache.spark.sql.delta.catalog.DeltaCatalog")
@@ -143,4 +143,3 @@ RUN pip install --quiet --no-cache-dir pathling && \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
 ```
-
