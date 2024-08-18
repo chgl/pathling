@@ -42,7 +42,9 @@ import org.apache.spark.sql.Encoder;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SaveMode;
 import org.apache.spark.sql.SparkSession;
+import org.apache.spark.sql.functions;
 import org.hl7.fhir.instance.model.api.IBaseResource;
+import org.hl7.fhir.instance.model.api.IIdType;
 import org.hl7.fhir.r4.model.Enumerations.ResourceType;
 
 /**
@@ -301,6 +303,16 @@ public class Database implements DataSource {
     // We need to throw an error if the table already exists, otherwise we could get contention 
     // issues on requests that call this method.
     write(resourceType, dataset);
+  }
+
+  @ResourceAccess(ResourceAccess.AccessType.WRITE)
+  public void delete(@Nonnull final ResourceType resourceType, @Nonnull final IIdType id) {
+    final DeltaTable table = readDelta(resourceType);
+
+    log.debug("Deleting: {}/{}", resourceType.toCode(), id.getIdPart());
+    table.delete(functions.col("id").equalTo(functions.lit(id.getIdPart())));
+    // TODO: should persistence.delete() happen here instead?
+    persistence.invalidate(resourceType);
   }
 
 }

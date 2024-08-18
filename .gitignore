@@ -30,6 +30,7 @@ metastore_db
 derby.log
 spark-warehouse
 
+.venv/
 
 #R
 *.Rproj
